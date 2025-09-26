@@ -33,3 +33,50 @@ def model_openai(model="gpt-4o-mini", temperature=0.1):
 
 def model_ollama(model="phi3", temperature=0.1):
     return ChatOllama(model=model, temperature=temperature)
+
+# Função de resposta
+def model_response(user_query, chat_history, model_class):
+    if model_class == "hf_hub":
+        llm = model_hf_hub()
+        supports_stream = False
+    elif model_class == "openai":
+        llm = model_openai()
+        supports_stream = True
+    elif model_class == "ollama":
+        llm = model_ollama()
+        supports_stream = True
+
+    system_prompt = """
+        Você é um assistente prestativo e está respondendo perguntas gerais. Responda em {language}.
+    """
+    language = "português"
+
+    if model_class.startswith("hf"):
+        user_prompt = "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n{input}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+    else:
+        user_prompt = "{input}"
+
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        MessagesPlaceholder(variable_name="chat_history"),
+        ("user", user_prompt)
+    ])
+
+    chain = prompt_template | llm | StrOutputParser()
+
+    if supports_stream:
+        return chain.stream({
+            "chat_history": chat_history,
+            "input": user_query,
+            "language": language
+        })
+    else:
+        return chain.invoke({
+            "chat_history": chat_history,
+            "input": user_query,
+            "language": language
+        })
+    
+# Histórico de conversa
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = [AIMessage(content="Olá, sou o seu assistente virtual! Como posso ajudar você?")]
