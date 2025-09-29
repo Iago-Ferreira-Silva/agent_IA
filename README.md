@@ -1,4 +1,3 @@
-git
 <h1 align="center">🤖 Assistente Virtual</h1>
 
 <p align="center">
