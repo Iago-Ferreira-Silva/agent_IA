@@ -80,3 +80,29 @@ def model_response(user_query, chat_history, model_class):
 # Histórico de conversa
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = [AIMessage(content="Olá, sou o seu assistente virtual! Como posso ajudar você?")]
+
+# Entrada do usuário
+user_query = st.chat_input("Digite sua mensagem aqui...")
+if user_query is not None and user_query != "":
+    st.session_state.chat_history.append(HumanMessage(content=user_query))
+
+    with st.chat_message("Human"):
+        st.markdown(user_query)
+
+    with st.chat_message("AI"):
+        resp = model_response(user_query, st.session_state.chat_history, model_class)
+
+        if hasattr(resp, "__iter__") and not isinstance(resp, str):
+            # Streaming: acumula os chunks
+            collected = ""
+            for chunk in resp:
+                collected += chunk
+                st.write(chunk)
+            final_resp = collected
+        else:
+            # Resposta direta
+            final_resp = resp
+            st.write(final_resp)
+
+    # Garante que sempre seja string
+    st.session_state.chat_history.append(AIMessage(content=str(final_resp)))
