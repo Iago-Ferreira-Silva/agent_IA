@@ -30,7 +30,7 @@
 ## 📁 ESTRUTURA DE PASTAS:
 
 ```bash
-ASSISTENTE_VIRTUAL/
+agent_IA/
 ├── main.py
 ├── requirements.txt
 ├── .env
