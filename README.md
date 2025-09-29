@@ -1,3 +1,4 @@
+git
 <h1 align="center">🤖 Assistente Virtual</h1>
 
 <p align="center">
@@ -61,6 +62,52 @@ ASSISTENTE_VIRTUAL/
 - 🔄 Diferenças entre modelos que suportam streaming e os que não suportam.
 - 🧩 Ajuste de prompts para compatibilidade entre backends diferentes.
 - 🛠️ Tratamento de erros de API e mensagens amigáveis ao usuário.
+
+***
+
+## 🚀 COMO RODAR O PROJETO LOCALMENTE:
+
+### 1. Clone o repositório:
+
+```bash
+git clone https://github.com/Iago-Ferreira-Silva/agent_IA.git
+```
+### 2. Acesse o diretório do projeto:
+
+```bash
+cd agent_IA
+```
+### 3. Crie e ative um ambiente virtual:
+
+```bash
+python -m venv venv
+source venv/bin/activate   # Linux/Mac
+venv\Scripts\activate      # Windows
+```
+
+### 4. Instale as dependências:
+
+```bash
+pip install -r requirements.txt
+```
+### 5. Configure suas chaves no arquivo .env:
+
+```bash
+OPENAI_API_KEY=your_openai_api_key
+HUGGINGFACEHUB_API_TOKEN=your_hf_token
+```
+
+### 6. Execute a aplicação:
+
+```bash
+streamlit run main.py
+```
+
+### 7. Acesse no navegador:
+
+```bash
+http://localhost:8501
+```
 
 ***
 
